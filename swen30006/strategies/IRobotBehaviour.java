@@ -1,5 +1,4 @@
 package strategies;
-
 import automail.StorageTube;
 
 public interface IRobotBehaviour {
@@ -21,4 +20,5 @@ public interface IRobotBehaviour {
      * @return Return true to indicate that the robot is ready to start delivering.
      */
 	public boolean fillStorageTube(IMailPool mailPool, StorageTube tube);
+
 }
