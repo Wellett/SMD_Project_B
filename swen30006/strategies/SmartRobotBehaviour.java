@@ -10,9 +10,9 @@ import automail.StorageTube;
 import exceptions.TubeFullException;
 
 public class SmartRobotBehaviour implements IRobotBehaviour{
-
+	
 	private int newPriorityArrival;
-
+	
 	public SmartRobotBehaviour(){
 		newPriorityArrival = 0;
 	}
@@ -31,7 +31,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 					nonPriorityCount++;
 				}
 			}
-
+			
 			if(priorityCount >= nonPriorityCount){
 				return false;
 			}
@@ -44,7 +44,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 				else{
 					return false;
 				}
-
+				
 			}
 		}
 		else{
@@ -57,19 +57,19 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
     	// Record that a new one has arrived
 		newPriorityArrival++;
     	System.out.println("T: "+Clock.Time()+" | Priority arrived");
-
+		
 	}
 
 	@Override
 	public boolean fillStorageTube(IMailPool mailPool, StorageTube tube) {
-
+		
 		ArrayList<MailItem> tempTube = new ArrayList<MailItem>();
 
 		// Empty my tube
 		while(!tube.tube.isEmpty()){
 			mailPool.addToPool(tube.pop());
 		}
-
+		
 		// Grab priority mail
 		while(tempTube.size() < tube.MAXIMUM_CAPACITY){
 			if(containMail(mailPool,MailPool.PRIORITY_POOL)){
@@ -83,15 +83,13 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 				else{
 					break;
 				}
-
+				
 			}
 		}
-
+		
 		// Sort tempTube based on floor
-		// This actually sorts based on arrival time?
-		//make a note of this in report, DON'T change behaviour
 		tempTube.sort(new ArrivalComparer());
-
+		
 		// Iterate through the tempTube
 		while(tempTube.iterator().hasNext()){
 			try {
@@ -100,7 +98,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 				e.printStackTrace();
 			}
 		}
-
+		
 		// Check if there is anything in the tube
 		if(!tube.tube.isEmpty()){
 			newPriorityArrival = 0;
@@ -108,7 +106,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		}
 		return false;
 	}
-
+	
 	private boolean containMail(IMailPool m, String mailPoolIdentifier){
 		if(mailPoolIdentifier.equals(MailPool.PRIORITY_POOL) && m.getPriorityPoolSize() > 0){
 			return true;
@@ -120,14 +118,14 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 			return false;
 		}
 	}
-
+	
 	private class ArrivalComparer implements Comparator<MailItem>{
 
 		@Override
 		public int compare(MailItem m1, MailItem m2) {
 			return MailPool.compareArrival(m1, m2);
 		}
-
+		
 	}
 
 }

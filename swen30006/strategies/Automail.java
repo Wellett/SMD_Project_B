@@ -26,7 +26,7 @@ public class Automail {
     			break;
     			
     		case "Big_Smart":
-    			robotBehaviour = new BigSimpleBehaviour();
+    			robotBehaviour = new BigSmartBehaviour();
     			
     		case "null":
     			robotBehaviour = new SimpleRobotBehaviour();
