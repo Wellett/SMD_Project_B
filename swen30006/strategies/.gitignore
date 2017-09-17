@@ -1,0 +1,9 @@
+/Automail.class
+/IMailPool.class
+/IRobotBehaviour.class
+/MailPool$NonPriorityComparer.class
+/MailPool$PriorityComparer.class
+/MailPool.class
+/SimpleRobotBehaviour.class
+/SmartRobotBehaviour$ArrivalComparer.class
+/SmartRobotBehaviour.class
