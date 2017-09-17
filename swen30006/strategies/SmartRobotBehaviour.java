@@ -94,7 +94,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		tube.tube.sort(new ArrivalComparer());
 
 		// Check if there is anything in the tube
-		if(!tube.tube.isEmpty()){
+		if(!tube.isEmpty()){
 			newPriorityArrival = 0;
 			return true;
 		}
