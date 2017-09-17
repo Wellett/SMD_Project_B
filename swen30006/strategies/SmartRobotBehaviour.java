@@ -71,12 +71,12 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 
 			// Grab priority mail
 			while(tube.getSize() < tube.MAXIMUM_CAPACITY){
-				if(containMail(mailPool,MailPool.PRIORITY_POOL)){
+				if(mailPool.getPriorityPoolSize() > 0){
 					tube.addItem(mailPool.getHighestPriorityMail());
 				}
 				else{
 					// Fill it up with non priority
-					if(containMail(mailPool,MailPool.NON_PRIORITY_POOL)){
+					if(mailPool.getNonPriorityPoolSize() > 0){
 						tube.addItem(mailPool.getNonPriorityMail());
 					}
 					else{
@@ -101,17 +101,6 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		return false;
 	}
 
-	private boolean containMail(IMailPool m, String mailPoolIdentifier){
-		if(mailPoolIdentifier.equals(MailPool.PRIORITY_POOL) && m.getPriorityPoolSize() > 0){
-			return true;
-		}
-		else if(mailPoolIdentifier.equals(MailPool.NON_PRIORITY_POOL) && m.getNonPriorityPoolSize() > 0){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
 
 	private class ArrivalComparer implements Comparator<MailItem>{
 
