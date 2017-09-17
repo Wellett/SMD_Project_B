@@ -64,33 +64,37 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 	public boolean fillStorageTube(IMailPool mailPool, StorageTube tube) {
 
 		//ArrayList<MailItem> tempTube = new ArrayList<MailItem>();
-
-		// Empty my tube
-		while(!tube.isEmpty()){
-			mailPool.addToPool(tube.pop());
-		}
-
-		// Grab priority mail
-		while(tube.size() < tube.MAXIMUM_CAPACITY){
-			if(containMail(mailPool,MailPool.PRIORITY_POOL)){
-				tube.add(mailPool.getHighestPriorityMail());
+		try{
+			// Empty my tube
+			while(!tube.isEmpty()){
+				mailPool.addToPool(tube.pop());
 			}
-			else{
-				// Fill it up with non priority
-				if(containMail(mailPool,MailPool.NON_PRIORITY_POOL)){
-					tube.add(mailPool.getNonPriorityMail());
+
+			// Grab priority mail
+			while(tube.getSize() < tube.MAXIMUM_CAPACITY){
+				if(containMail(mailPool,MailPool.PRIORITY_POOL)){
+					tube.addItem(mailPool.getHighestPriorityMail());
 				}
 				else{
-					break;
+					// Fill it up with non priority
+					if(containMail(mailPool,MailPool.NON_PRIORITY_POOL)){
+						tube.addItem(mailPool.getNonPriorityMail());
+					}
+					else{
+						break;
+					}
 				}
-
 			}
 		}
+		catch(TubeFullException e){
+			e.printStackTrace();
+		}
+
 
 		// Sort tube based on floor
 		// This actually sorts based on arrival time?
 		//make a note of this in report, DON'T change behaviour
-		tube.sort(new ArrivalComparer());
+		tube.tube.sort(new ArrivalComparer());
 
 		// // Iterate through the tempTube
 		// while(tempTube.iterator().hasNext()){
