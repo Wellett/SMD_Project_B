@@ -8,18 +8,18 @@ import automail.MailItem;
 import automail.PriorityMailItem;
 
 public class MailPool implements IMailPool{
-	
+
 	public static final String PRIORITY_POOL = "PRIORITY_POOL";
 	public static final String NON_PRIORITY_POOL = "NON_PRIORITY_POOL";
-	
+
 	private ArrayList<MailItem> nonPriorityPool;
 	private ArrayList<MailItem> priorityPool;
-	
+
 	public MailPool(){
 		nonPriorityPool = new ArrayList<MailItem>();
 		priorityPool = new ArrayList<MailItem>();
 	}
-	
+
 	public int getPriorityPoolSize(){
 		return priorityPool.size();
 	}
@@ -42,7 +42,7 @@ public class MailPool implements IMailPool{
 			nonPriorityPool.sort(new NonPriorityComparer());
 		}
 	}
-	
+
 	public MailItem getNonPriorityMail(){
 		if(getNonPriorityPoolSize() > 0){
 			return nonPriorityPool.remove(0);
@@ -51,7 +51,7 @@ public class MailPool implements IMailPool{
 			return null;
 		}
 	}
-	
+
 	public MailItem getHighestPriorityMail(){
 		if(getPriorityPoolSize() > 0){
 			return priorityPool.remove(0);
@@ -59,25 +59,25 @@ public class MailPool implements IMailPool{
 		else{
 			return null;
 		}
-		
+
 	}
-	
+
 	public MailItem getBestMail(int FloorFrom, int FloorTo) {
-		
+
 		ArrayList<MailItem> tempPriority = new ArrayList<MailItem>();
-		
+
 		// Check if there are any priority mail within the range
 		for(MailItem m : priorityPool){
 			if(isWithinRange(m,FloorFrom,FloorTo)){
 				tempPriority.add(m);
 			}
 		}
-		
+
 		// If there is already something in priority then return it as the best mail
 		if(tempPriority.size() > 0){
 			// Since priorityPool is already sorted, that means items being added are already sorted with the
 			// highest priority being in the front of the arraylist
-			
+
 			return tempPriority.get(0);
 		}
 		else{
@@ -93,10 +93,10 @@ public class MailPool implements IMailPool{
 				return tempNonPriority.get(0);
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	private boolean isWithinRange(MailItem m, int FloorFrom, int FloorTo){
 
 		if(m.getDestFloor() <= FloorTo && m.getDestFloor() >= FloorFrom){
@@ -105,7 +105,7 @@ public class MailPool implements IMailPool{
 		else{
 			return false;
 		}
-		
+
 
 	}
 
@@ -127,15 +127,15 @@ public class MailPool implements IMailPool{
 			}
 		}
 	}
-	
+
 	private class NonPriorityComparer implements Comparator<MailItem>{
-		
+
 		// Compare arrival time
 		public int compare(MailItem m1, MailItem m2){
-			return compareArrival(m1,m2);
+			return m1.compareArrival(m2);
 		}
 	}
-	
+
 	public static int compareArrival(MailItem m1, MailItem m2){
 		if(m1.getArrivalTime() < m2.getArrivalTime()){
 			return -1;
@@ -147,6 +147,6 @@ public class MailPool implements IMailPool{
 			return 1;
 		}
 	}
-	
-	
+
+
 }

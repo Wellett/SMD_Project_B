@@ -117,7 +117,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 
 		@Override
 		public int compare(MailItem m1, MailItem m2) {
-			return MailPool.compareArrival(m1, m2);
+			return m1.compareArrival(m2);
 		}
 
 	}
