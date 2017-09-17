@@ -55,10 +55,6 @@ public class StorageTube {
         }
     }
 
-    public int getCapacity(){
-      return maxCapacity;
-    }
-
     /** @return the size of the tube **/
     public int getSize(){
     	return tube.size();
