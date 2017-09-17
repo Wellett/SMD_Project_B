@@ -6,7 +6,7 @@ import java.util.UUID;
  * Represents a mail item
  */
 public class MailItem {
-	
+
     /** Represents the destination floor to which the mail is intended to go */
     protected final int DESTINATION_FLOOR;
     /** The mail identifier */
@@ -41,7 +41,7 @@ public class MailItem {
     public int getDestFloor() {
         return DESTINATION_FLOOR;
     }
-    
+
     /**
      *
      * @return the ID of the mail item
@@ -57,5 +57,18 @@ public class MailItem {
     public int getArrivalTime(){
         return ARRIVAL_TIME;
     }
+
+		public int compareArrival(MailItem cmp){
+			if(this.getArrivalTime() < cmp.getArrivalTime()){
+				return -1;
+			}
+			else if(this.getArrivalTime() == cmp.getArrivalTime()){
+				return 0;
+			}
+			else{
+				return 1;
+			}
+		}
+
 
 }

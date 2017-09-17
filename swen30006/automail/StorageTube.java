@@ -74,21 +74,11 @@ public class StorageTube {
       tube.sort(new ArrivalComparer());
     }
 
-
     private class ArrivalComparer implements Comparator<MailItem>{
 
-    }
-
-    public static int compare(MailItem m1, MailItem m2){
-      if(m1.getArrivalTime() < m2.getArrivalTime()){
-        return -1;
-      }
-      else if(m1.getArrivalTime() == m2.getArrivalTime()){
-        return 0;
-      }
-      else{
-        return 1;
+      @Override
+      public int compare(MailItem m1, MailItem m2) {
+        return m1.compareArrival(m2);
       }
     }
-
 }
