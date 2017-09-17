@@ -32,11 +32,11 @@ public class Robot {
      * @param delivery governs the final delivery
      * @param mailPool is the source of mail items
      */
-    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, IMailPool mailPool){
+    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, IMailPool mailPool, String RobotType){
         // current_state = RobotState.WAITING;
     	current_state = RobotState.RETURNING;
         current_floor = Building.MAILROOM_LOCATION;
-        tube = new StorageTube();
+        tube = new StorageTube(RobotType);
         this.behaviour = behaviour;
         this.delivery = delivery;
         this.mailPool = mailPool;

@@ -1,4 +1,5 @@
 package strategies;
+
 import automail.MailItem;
 import automail.StorageTube;
 import exceptions.TubeFullException;
@@ -6,11 +7,10 @@ import exceptions.TubeFullException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Big_Simple implements IRobotBehaviour {
+public class BigSimpleBehaviour implements IRobotBehaviour {
 	
-	private static final int MAX_TAKE = 6; // Larger tube size is 6
 
-	@Override
+	
 	public boolean returnToMailRoom(StorageTube tube) {
 		// Simple robot can't receive notifications, only return once all mail is delivered
 		
@@ -36,7 +36,7 @@ public class Big_Simple implements IRobotBehaviour {
 		ArrayList<MailItem> tempTube = new ArrayList<MailItem>();
 		
 		// Grab priority mail first
-		while(tempTube.size() < MAX_TAKE){
+		while(tempTube.size() < tube.MAXIMUM_CAPACITY){
 			if(containMail(mailPool,MailPool.PRIORITY_POOL)){
 				tempTube.add(mailPool.getHighestPriorityMail());
 			}
@@ -95,5 +95,7 @@ public class Big_Simple implements IRobotBehaviour {
 			return MailPool.compareArrival(m1, m2);
 		}
 	}
+	
+
 
 }
