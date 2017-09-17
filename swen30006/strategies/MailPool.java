@@ -9,9 +9,6 @@ import automail.PriorityMailItem;
 
 public class MailPool implements IMailPool{
 
-	public static final String PRIORITY_POOL = "PRIORITY_POOL";
-	public static final String NON_PRIORITY_POOL = "NON_PRIORITY_POOL";
-
 	private ArrayList<MailItem> nonPriorityPool;
 	private ArrayList<MailItem> priorityPool;
 
