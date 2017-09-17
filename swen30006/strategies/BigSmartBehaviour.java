@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class BigSmartBehaviour implements IRobotBehaviour {
-	
 
-	
+
+
 	public boolean returnToMailRoom(StorageTube tube) {
 		// Simple robot can't receive notifications, only return once all mail is delivered
-		
+
 		if (tube.isEmpty()) {
 			return true;
 		}
@@ -24,7 +24,7 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 
 	@Override
 	public void priorityArrival(int priority) {
-		// Simple robot can't receive notifications, so method is useless 
+		// Simple robot can't receive notifications, so method is useless
 
 	}
 
@@ -32,9 +32,9 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 	public boolean fillStorageTube(IMailPool mailPool, StorageTube tube) {
 		// New robot has smart behaviour but no notification ability, therefore using essentially the same code as
 		// regular smart robot
-		
+
 		ArrayList<MailItem> tempTube = new ArrayList<MailItem>();
-		
+
 		// Grab priority mail first
 		while(tempTube.size() < tube.MAXIMUM_CAPACITY){
 			if(containMail(mailPool,MailPool.PRIORITY_POOL)){
@@ -48,13 +48,13 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 				else{
 					break;
 				}
-				
+
 			}
 		}
-		
+
 		// Sort tempTube based on floor
 		tempTube.sort(new ArrivalComparer());
-		
+
 		// Iterate through the tempTube
 		while(tempTube.iterator().hasNext()){
 			try {
@@ -63,17 +63,17 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// Check if there is anything in the tube
 		if(!tube.tube.isEmpty()){
 			return true;
 		}
 		return false;
 	}
-	
-	
-	
-	
+
+
+
+
 	private boolean containMail(IMailPool m, String mailPoolIdentifier){
 		if(mailPoolIdentifier.equals(MailPool.PRIORITY_POOL) && m.getPriorityPoolSize() > 0){
 			return true;
@@ -85,17 +85,17 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 			return false;
 		}
 	}
-	
-	
-	
+
+
+
 	private class ArrivalComparer implements Comparator<MailItem>{
 
 		@Override
 		public int compare(MailItem m1, MailItem m2) {
-			return MailPool.compareArrival(m1, m2);
+			return m1.compareArrival(m2);
 		}
 	}
-	
+
 
 
 }

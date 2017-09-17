@@ -120,7 +120,7 @@ public class MailPool implements IMailPool{
 				return -1;
 			}
 			else if(((PriorityMailItem)m1).getPriorityLevel() == ((PriorityMailItem)m2).getPriorityLevel()){
-				return compareArrival(m1,m2);
+				return m1.compareArrival(m2);
 			}
 			else{
 				return 1;
@@ -135,18 +135,5 @@ public class MailPool implements IMailPool{
 			return m1.compareArrival(m2);
 		}
 	}
-
-	public static int compareArrival(MailItem m1, MailItem m2){
-		if(m1.getArrivalTime() < m2.getArrivalTime()){
-			return -1;
-		}
-		else if(m1.getArrivalTime() == m2.getArrivalTime()){
-			return 0;
-		}
-		else{
-			return 1;
-		}
-	}
-
 
 }
