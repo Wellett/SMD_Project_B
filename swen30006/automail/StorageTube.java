@@ -10,17 +10,14 @@ import java.util.Stack;
  */
 public class StorageTube {
 
-    private int maxCapacity = 4; /* default size */
+    private int maxCapacity; /* default size */
     private Stack<MailItem> tube;
 
 
      /* Constructor for the storage tube */
-    public StorageTube(String RobotType){
-        this.tube = new Stack<MailItem>();
-
-        if (RobotType.equals("Big_Smart")) {
-        	maxCapacity = 6;
-        }
+    public StorageTube(int tubeCapacity){
+      this.tube = new Stack<MailItem>();
+      this.maxCapacity = tubeCapacity;
     }
 
     /**

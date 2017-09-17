@@ -11,6 +11,12 @@ import exceptions.TubeFullException;
 public class SmartRobotBehaviour implements IRobotBehaviour{
 
 	private int newPriorityArrival;
+	private static final int TUBE_CAPACITY = 4;
+
+	public int getTubeCapacity(){
+		return TUBE_CAPACITY;
+	}
+
 
 	public SmartRobotBehaviour(){
 		newPriorityArrival = 0;

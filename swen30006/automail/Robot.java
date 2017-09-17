@@ -19,11 +19,11 @@ public class Robot {
     private int current_floor;
     private int destination_floor;
     private IMailPool mailPool;
-    
+
     private MailItem deliveryItem;
-    
+
     private int deliveryCounter;
-    
+
 
     /**
      * Initiates the robot's location at the start to be at the mailroom
@@ -32,11 +32,11 @@ public class Robot {
      * @param delivery governs the final delivery
      * @param mailPool is the source of mail items
      */
-    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, IMailPool mailPool, String RobotType){
+    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, IMailPool mailPool){
         // current_state = RobotState.WAITING;
-    	current_state = RobotState.RETURNING;
+    		current_state = RobotState.RETURNING;
         current_floor = Building.MAILROOM_LOCATION;
-        tube = new StorageTube(RobotType);
+        tube = new StorageTube(behaviour.getTubeCapacity());
         this.behaviour = behaviour;
         this.delivery = delivery;
         this.mailPool = mailPool;
@@ -48,9 +48,9 @@ public class Robot {
      * @throws ExcessiveDeliveryException if robot delivers more than the capacity of the tube without refilling
      */
     public void step() throws ExcessiveDeliveryException{
-    	
+
     	boolean go = false;
-    	
+
     	switch(current_state) {
     		/** This state is triggered when the robot is returning to the mailroom after a delivery */
     		case RETURNING:
@@ -68,7 +68,7 @@ public class Robot {
                 // System.out.println("Tube total size: "+tube.getTotalOfSizes());
                 /** If the StorageTube is ready and the Robot is waiting in the mailroom then start the delivery */
                 if(go){
-                	
+
                 	deliveryCounter = 0; // reset delivery counter
                 	setRoute();
                 	changeState(RobotState.DELIVERING);
@@ -126,7 +126,7 @@ public class Robot {
             current_floor--;
         }
     }
-    
+
     /**
      * Prints out the change in state
      * @param nextState
@@ -140,6 +140,6 @@ public class Robot {
     		System.out.println("T: "+Clock.Time()+" | Deliver   " + deliveryItem.toString());
     	}
     }
-    
+
 
 }

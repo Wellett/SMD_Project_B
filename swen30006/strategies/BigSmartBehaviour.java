@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class BigSmartBehaviour implements IRobotBehaviour {
+	private static final int TUBE_CAPACITY = 6;
 
-
+	public int getTubeCapacity(){
+		return TUBE_CAPACITY;
+	}
 
 	public boolean returnToMailRoom(StorageTube tube) {
 		// Simple robot can't receive notifications, only return once all mail is delivered
