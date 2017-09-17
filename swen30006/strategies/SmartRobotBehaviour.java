@@ -63,7 +63,6 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 	@Override
 	public boolean fillStorageTube(IMailPool mailPool, StorageTube tube) {
 
-		//ArrayList<MailItem> tempTube = new ArrayList<MailItem>();
 		try{
 			// Empty my tube
 			while(!tube.isEmpty()){
@@ -89,21 +88,10 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		catch(TubeFullException e){
 			e.printStackTrace();
 		}
-
-
 		// Sort tube based on floor
 		// This actually sorts based on arrival time?
 		//make a note of this in report, DON'T change behaviour
 		tube.tube.sort(new ArrivalComparer());
-
-		// // Iterate through the tempTube
-		// while(tempTube.iterator().hasNext()){
-		// 	try {
-		// 		tube.addItem(tempTube.remove(0));
-		// 	} catch (TubeFullException e) {
-		// 		e.printStackTrace();
-		// 	}
-		// }
 
 		// Check if there is anything in the tube
 		if(!tube.tube.isEmpty()){
