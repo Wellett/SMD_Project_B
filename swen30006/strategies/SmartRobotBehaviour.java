@@ -91,7 +91,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		// Sort tube based on floor
 		// This actually sorts based on arrival time?
 		//make a note of this in report, DON'T change behaviour
-		tube.tube.sort(new ArrivalComparer());
+		tube.arrivalSort();
 
 		// Check if there is anything in the tube
 		if(!tube.isEmpty()){
