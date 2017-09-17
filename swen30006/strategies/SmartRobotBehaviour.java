@@ -1,7 +1,6 @@
 package strategies;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import automail.Clock;
 import automail.MailItem;
@@ -91,10 +90,10 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		// Sort tube based on floor
 		// This actually sorts based on arrival time?
 		//make a note of this in report, DON'T change behaviour
-		tube.tube.sort(new ArrivalComparer());
+		tube.arrivalSort();
 
 		// Check if there is anything in the tube
-		if(!tube.tube.isEmpty()){
+		if(tube.isEmpty()){
 			newPriorityArrival = 0;
 			return true;
 		}
@@ -111,15 +110,6 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		else{
 			return false;
 		}
-	}
-
-	private class ArrivalComparer implements Comparator<MailItem>{
-
-		@Override
-		public int compare(MailItem m1, MailItem m2) {
-			return MailPool.compareArrival(m1, m2);
-		}
-
 	}
 
 }
