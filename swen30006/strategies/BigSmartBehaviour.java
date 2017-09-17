@@ -65,7 +65,7 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 		}
 
 		// Check if there is anything in the tube
-		if(!tube.tube.isEmpty()){
+		if(!tube.isEmpty()){
 			return true;
 		}
 		return false;
