@@ -9,7 +9,7 @@ import strategies.IMailPool;
  */
 public class MailGenerator {
 
-    public final int MAIL_TO_CREATE;
+    public int MAIL_TO_CREATE;
 
     private int mailCreated;
 
