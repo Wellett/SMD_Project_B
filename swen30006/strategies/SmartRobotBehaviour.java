@@ -113,13 +113,4 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		}
 	}
 
-	private class ArrivalComparer implements Comparator<MailItem>{
-
-		@Override
-		public int compare(MailItem m1, MailItem m2) {
-			return m1.compareArrival(m2);
-		}
-
-	}
-
 }
