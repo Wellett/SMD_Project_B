@@ -36,7 +36,7 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 		// Grab priority mail first
 		try{
 
-			while(tube.getSize() < tube.MAXIMUM_CAPACITY){
+			while(tube.getSize() < tube.getCapacity()){
 				if(containMail(mailPool,MailPool.PRIORITY_POOL)){
 					tube.addItem(mailPool.getHighestPriorityMail());
 				}

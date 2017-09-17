@@ -10,7 +10,7 @@ import java.util.Stack;
  */
 public class StorageTube {
 
-    public int MAXIMUM_CAPACITY = 4; /* default size */
+    private int MAXIMUM_CAPACITY = 4; /* default size */
     private Stack<MailItem> tube;
 
 
@@ -56,6 +56,10 @@ public class StorageTube {
         } else {
             throw new TubeFullException();
         }
+    }
+
+    public int getCapacity(){
+      return MAXIMUM_CAPACITY;
     }
 
     /** @return the size of the tube **/
