@@ -5,6 +5,7 @@ import exceptions.MailAlreadyDeliveredException;
 import strategies.Automail;
 
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -14,45 +15,83 @@ import java.util.Properties;
  */
 public class Simulation {
 
-    /** Constant for the mail generator */
-    private static final int MAIL_TO_CREATE = 60;
+	/* initialise to default parameters */
+    private static int MAIL_TO_CREATE = 60;
+    private	static int seed;
+    private static String Robot_Type = "Small_Comms_Smart";
+    private static double Delivery_Penalty = 1.1;
     
-
     private static ArrayList<MailItem> MAIL_DELIVERED;
     private static double total_score = 0;
 
-    public static void main(String[] args){
-/*    	// Should probably be using properties here
-    	Properties automailProperties = new Properties();
-		// Defaults
-		automailProperties.setProperty("Name_of_Property", "20");  // Property value may need to be converted from a string to the appropriate type
+    public static void main(String[] args) throws IOException{
 
+    	
+    	Properties automailProperties = new Properties();
 		FileReader inStream = null;
 		
 		try {
 			inStream = new FileReader("automail.properties");
 			automailProperties.load(inStream);
+			
+			/* set properties */
+			seed = Integer.parseInt(automailProperties.getProperty("Seed"));
+			
+			//building properties 
+			Building.FLOORS = Integer.parseInt(automailProperties.getProperty("Number_of_Floors"));
+			Building.LOWEST_FLOOR = Integer.parseInt(automailProperties.getProperty("Lowest_Floor"));
+			Building.MAILROOM_LOCATION = Integer.parseInt(automailProperties.getProperty("Location_of_MailRoom")); 
+			
+			/* Delivery Score Parameter */
+			Delivery_Penalty = Double.parseDouble(automailProperties.getProperty("Delivery_Penalty"));
+			
+			// Clock Parameter
+			Clock.LAST_DELIVERY_TIME = Integer.parseInt(automailProperties.getProperty("Last_Delivery_Time"));
+			
+			/*# Mail Generation Parameters
+			Mail_Count_Percentage_Variation=20
+			Priority_Mail_is_One_in=6
+			Not sure where these are...
+			*/
+			
+			
+			MAIL_TO_CREATE = Integer.parseInt(automailProperties.getProperty("Mail_to_Create"));
+			
+			/* Robot Type */
+			Robot_Type = automailProperties.getProperty("Robot_Type");
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			seed = 0;
+			e.printStackTrace();
 		} finally {
 			 if (inStream != null) {
 	                inStream.close();
 	            }
 		}
 		
-		int i = Integer.parseInt(automailProperties.getProperty("Name_of_Property"));
-*/
+		
         MAIL_DELIVERED = new ArrayList<MailItem>();
+        
+
                 
         /** Used to see whether a seed is initialized or not */
         HashMap<Boolean, Integer> seedMap = new HashMap<>();
+        seedMap.put(true, seed);
         
         /** Read the first argument and save it as a seed if it exists */
         if(args.length != 0){
-        	int seed = Integer.parseInt(args[0]);
+        	seed = Integer.parseInt(args[0]);
         	seedMap.put(true, seed);
         } else{
         	seedMap.put(false, 0);
         }
-        Automail automail = new Automail(new ReportDelivery());
+        
+        /* if parameters imported, create automail with robot type, otherwise default */
+        Automail automail = new Automail(new ReportDelivery(), Robot_Type);
+       
+       
         MailGenerator generator = new MailGenerator(MAIL_TO_CREATE, automail.mailPool, seedMap);
         
         /** Initiate all the mail */
@@ -97,7 +136,7 @@ public class Simulation {
     
     private static double calculateDeliveryScore(MailItem deliveryItem) {
     	// Penalty for longer delivery times
-    	final double penalty = 1.1;
+    	final double penalty = Delivery_Penalty;
     	double priority_weight = 0;
         // Take (delivery time - arrivalTime)**penalty * (1+sqrt(priority_weight))
     	if(deliveryItem instanceof PriorityMailItem){
