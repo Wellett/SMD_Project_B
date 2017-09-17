@@ -30,11 +30,8 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 
 	@Override
 	public boolean fillStorageTube(IMailPool mailPool, StorageTube tube) {
-		// New robot has smart behaviour but no notification ability, therefore using essentially the same code as
-		// regular smart robot
+		// New robot has smart behaviour but no notification ability, therefore using essentially the same code as regular smart robot
 		//as there is no notification ability, no need to empty tube
-
-		//ArrayList<MailItem> tempTube = new ArrayList<MailItem>();
 
 		// Grab priority mail first
 		try{
@@ -51,7 +48,6 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 					else{
 						break;
 					}
-
 				}
 			}
 		}
@@ -69,8 +65,6 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 		}
 		return false;
 	}
-
-
 
 
 	private boolean containMail(IMailPool m, String mailPoolIdentifier){
