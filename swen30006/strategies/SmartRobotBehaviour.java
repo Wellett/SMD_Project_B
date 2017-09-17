@@ -93,11 +93,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		tube.arrivalSort();
 
 		// Check if there is anything in the tube
-<<<<<<< HEAD
-		if(tube.isEmpty()){
-=======
 		if(!tube.isEmpty()){
->>>>>>> new
 			newPriorityArrival = 0;
 			return true;
 		}
