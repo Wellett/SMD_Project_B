@@ -1,7 +1,6 @@
 package strategies;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import automail.Clock;
 import automail.MailItem;
@@ -12,6 +11,12 @@ import exceptions.TubeFullException;
 public class SmartRobotBehaviour implements IRobotBehaviour{
 
 	private int newPriorityArrival;
+	private static final int TUBE_CAPACITY = 4;
+
+	public int getTubeCapacity(){
+		return TUBE_CAPACITY;
+	}
+
 
 	public SmartRobotBehaviour(){
 		newPriorityArrival = 0;
@@ -23,8 +28,8 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 			int priorityCount = 0;
 			int nonPriorityCount = 0;
 			// There has to be more priority than non-priority to keep going
-			for(MailItem m : tube.tube){
-				if(m instanceof PriorityMailItem){
+			for(int i = 0; i < tube.getSize(); i++){
+				if((tube.getMailItem(i)) instanceof PriorityMailItem){
 					priorityCount++;
 				}
 				else{
@@ -37,7 +42,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 			}
 			else{
 				// Check if there is more than 1 priority arrival and the size of the tube is greater than or equal to half
-				if(newPriorityArrival > 1 && tube.getSize() >= tube.MAXIMUM_CAPACITY/2){
+				if(newPriorityArrival > 1 && tube.getSize() >= TUBE_CAPACITY/2){
 
 					return true;
 				}
@@ -70,7 +75,7 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 			}
 
 			// Grab priority mail
-			while(tube.getSize() < tube.MAXIMUM_CAPACITY){
+			while(tube.getSize() < TUBE_CAPACITY){
 				if(mailPool.getPriorityPoolSize() > 0){
 					tube.addItem(mailPool.getHighestPriorityMail());
 				}
@@ -91,24 +96,14 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 		// Sort tube based on floor
 		// This actually sorts based on arrival time?
 		//make a note of this in report, DON'T change behaviour
-		tube.tube.sort(new ArrivalComparer());
+		tube.arrivalSort();
 
 		// Check if there is anything in the tube
-		if(!tube.tube.isEmpty()){
+		if(!tube.isEmpty()){
 			newPriorityArrival = 0;
 			return true;
 		}
 		return false;
-	}
-
-
-	private class ArrivalComparer implements Comparator<MailItem>{
-
-		@Override
-		public int compare(MailItem m1, MailItem m2) {
-			return MailPool.compareArrival(m1, m2);
-		}
-
 	}
 
 }

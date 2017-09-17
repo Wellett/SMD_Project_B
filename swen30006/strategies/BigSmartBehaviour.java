@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class BigSmartBehaviour implements IRobotBehaviour {
-	
+	private static final int TUBE_CAPACITY = 6;
 
-	
+	public int getTubeCapacity(){
+		return TUBE_CAPACITY;
+	}
+
 	public boolean returnToMailRoom(StorageTube tube) {
 		// Simple robot can't receive notifications, only return once all mail is delivered
-		
+
 		if (tube.isEmpty()) {
 			return true;
 		}
@@ -24,78 +27,46 @@ public class BigSmartBehaviour implements IRobotBehaviour {
 
 	@Override
 	public void priorityArrival(int priority) {
-		// Simple robot can't receive notifications, so method is useless 
+		// Simple robot can't receive notifications, so method is useless
 
 	}
 
 	@Override
 	public boolean fillStorageTube(IMailPool mailPool, StorageTube tube) {
-		// New robot has smart behaviour but no notification ability, therefore using essentially the same code as
-		// regular smart robot
-		
-		ArrayList<MailItem> tempTube = new ArrayList<MailItem>();
-		
+		// New robot has smart behaviour but no notification ability, therefore using essentially the same code as regular smart robot
+		//as there is no notification ability, no need to empty tube
+
 		// Grab priority mail first
-		while(tempTube.size() < tube.MAXIMUM_CAPACITY){
-			if(containMail(mailPool,MailPool.PRIORITY_POOL)){
-				tempTube.add(mailPool.getHighestPriorityMail());
-			}
-			else{
-				// Fill it up with non priority
-				if(containMail(mailPool,MailPool.NON_PRIORITY_POOL)){
-					tempTube.add(mailPool.getNonPriorityMail());
+		try{
+
+			while(tube.getSize() < TUBE_CAPACITY){
+				if(mailPool.getPriorityPoolSize() > 0){
+					tube.addItem(mailPool.getHighestPriorityMail());
 				}
 				else{
-					break;
+					// Fill it up with non priority
+					if(mailPool.getNonPriorityPoolSize() > 0){
+						tube.addItem(mailPool.getNonPriorityMail());
+					}
+					else{
+						break;
+					}
 				}
-				
 			}
 		}
-		
-		// Sort tempTube based on floor
-		tempTube.sort(new ArrivalComparer());
-		
-		// Iterate through the tempTube
-		while(tempTube.iterator().hasNext()){
-			try {
-				tube.addItem(tempTube.remove(0));
-			} catch (TubeFullException e) {
+		catch (TubeFullException e) {
 				e.printStackTrace();
-			}
 		}
-		
+
+		// Sort tempTube based on floor
+		//Actually sorts based on arrival
+		tube.arrivalSort();
+
 		// Check if there is anything in the tube
-		if(!tube.tube.isEmpty()){
+		if(!tube.isEmpty()){
 			return true;
 		}
 		return false;
 	}
-	
-	
-	
-	
-	private boolean containMail(IMailPool m, String mailPoolIdentifier){
-		if(mailPoolIdentifier.equals(MailPool.PRIORITY_POOL) && m.getPriorityPoolSize() > 0){
-			return true;
-		}
-		else if(mailPoolIdentifier.equals(MailPool.NON_PRIORITY_POOL) && m.getNonPriorityPoolSize() > 0){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-	
-	
-	
-	private class ArrivalComparer implements Comparator<MailItem>{
-
-		@Override
-		public int compare(MailItem m1, MailItem m2) {
-			return MailPool.compareArrival(m1, m2);
-		}
-	}
-	
-
 
 }

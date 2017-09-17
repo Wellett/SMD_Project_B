@@ -2,7 +2,7 @@ package automail;
 
 // import exceptions.RobotNotInMailRoomException;
 import exceptions.TubeFullException;
-
+import java.util.Comparator;
 import java.util.Stack;
 
 /**
@@ -10,24 +10,21 @@ import java.util.Stack;
  */
 public class StorageTube {
 
-    public int MAXIMUM_CAPACITY = 4; /* default size */
-    public Stack<MailItem> tube;
+    private int maxCapacity; /* default size */
+    private Stack<MailItem> tube;
 
 
      /* Constructor for the storage tube */
-    public StorageTube(String RobotType){
-        this.tube = new Stack<MailItem>();
-        
-        if (RobotType.equals("Big_Smart")) {
-        	MAXIMUM_CAPACITY = 6;
-        }
+    public StorageTube(int tubeCapacity){
+      this.tube = new Stack<MailItem>();
+      this.maxCapacity = tubeCapacity;
     }
 
     /**
      * @return if the storage tube is full
      */
     public boolean isFull(){
-        return tube.capacity() == MAXIMUM_CAPACITY;
+        return tube.capacity() == maxCapacity;
     }
 
     /**
@@ -36,7 +33,7 @@ public class StorageTube {
     public boolean isEmpty(){
         return tube.isEmpty();
     }
-    
+
     /**
      * @return the first item in the storage tube (without removing it)
      */
@@ -51,7 +48,7 @@ public class StorageTube {
      */
     public void addItem(MailItem item) throws TubeFullException {
         int current = getSize();
-        if(current + 1 <= MAXIMUM_CAPACITY){
+        if(current + 1 <= maxCapacity){
         	tube.add(item);
         } else {
             throw new TubeFullException();
@@ -62,14 +59,28 @@ public class StorageTube {
     public int getSize(){
     	return tube.size();
     }
-    
-    /** 
+
+    //returns a specific MailItem from the tube
+    public MailItem getMailItem(int index){
+      return tube.get(index);
+    }
+
+    /**
      * @return the first item in the storage tube (after removing it)
      */
     public MailItem pop(){
         return tube.pop();
     }
-    
-    
 
+    public void arrivalSort(){
+      tube.sort(new ArrivalComparer());
+    }
+
+    private class ArrivalComparer implements Comparator<MailItem>{
+
+      @Override
+      public int compare(MailItem m1, MailItem m2) {
+        return m1.compareArrival(m2);
+      }
+    }
 }

@@ -5,10 +5,15 @@ import automail.StorageTube;
 import exceptions.TubeFullException;
 
 public class SimpleRobotBehaviour implements IRobotBehaviour {
-	
-	private static final int MAX_TAKE = 4;
-	private boolean newPriority; // Used if we are notified that a priority item has arrived. 
-		
+
+	private boolean newPriority; // Used if we are notified that a priority item has arrived.
+	private static final int TUBE_CAPACITY = 4;
+
+	public int getTubeCapacity(){
+		return TUBE_CAPACITY;
+	}
+
+
 	public SimpleRobotBehaviour() {
 		newPriority = false;
 	}
@@ -32,7 +37,7 @@ public class SimpleRobotBehaviour implements IRobotBehaviour {
 			}
 			else{
 				// Get as many nonpriority items as available or as fit
-				while(tube.getSize() < MAX_TAKE && mailPool.getNonPriorityPoolSize() > 0) {
+				while(tube.getSize() < TUBE_CAPACITY && mailPool.getNonPriorityPoolSize() > 0) {
 					tube.addItem(mailPool.getNonPriorityMail());
 				}
 				return (tube.getSize() > 0);
@@ -43,14 +48,14 @@ public class SimpleRobotBehaviour implements IRobotBehaviour {
 		}
 		return false;
 	}
-	
+
 	@Override
     public void priorityArrival(int priority) {
     	// Record that a new one has arrived
     	newPriority = true;
     	System.out.println("T: "+Clock.Time()+" | Priority arrived");
     }
- 
+
 	@Override
 	public boolean returnToMailRoom(StorageTube tube) {
 		// Only return if we don't have a priority item and a new one came in
@@ -62,7 +67,7 @@ public class SimpleRobotBehaviour implements IRobotBehaviour {
 			return false;
 		}
 	}
-	
-	
+
+
 
 }
