@@ -22,8 +22,8 @@ public class SmartRobotBehaviour implements IRobotBehaviour{
 			int priorityCount = 0;
 			int nonPriorityCount = 0;
 			// There has to be more priority than non-priority to keep going
-			for(MailItem m : tube.tube){
-				if(m instanceof PriorityMailItem){
+			for(int i = 0; i < tube.getSize(); i++){
+				if((tube.getMailItem(i)) instanceof PriorityMailItem){
 					priorityCount++;
 				}
 				else{
