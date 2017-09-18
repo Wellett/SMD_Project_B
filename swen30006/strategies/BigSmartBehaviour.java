@@ -1,3 +1,5 @@
+/* Group 19:
+586703 Will Ellett, 587310 Will Brookes, 694419 Joshua Yang */
 package strategies;
 
 import automail.MailItem;
